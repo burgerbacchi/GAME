@@ -4,33 +4,52 @@ body {
     background-color: #f0f8ff;
   }
   
-  #game-board {
+  .game-board {
     display: grid;
     grid-template-columns: repeat(4, 100px);
-    gap: 10px;
-    justify-content: center;
-    margin: 20px auto;
-  }
-  
-  .card {
+    grid-gap: 10px;
+    justify-content: center; /* Centers the cards horizontally */
+    margin-top: 50px; /* Adjust this value to control vertical positioning */
+    max-width: 450px; /* Set a maximum width if you want to limit the board size */
+    margin: auto; /* Centers the game board on the page */
+}
+
+.card {
     width: 100px;
     height: 100px;
-    background-color: #007acc;
-    border-radius: 8px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 24px;
-    visibility: hidden;
+    perspective: 1000px;
+    display: inline-block; /* Ensures proper layout when centering */
+}
+
+.card .front,
+.card .back {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    backface-visibility: hidden;
     transition: transform 0.3s;
-  }
-  
-  .card.flipped {
-    visibility: visible;
-    background-color: #fff;
-    color: #000;
+}
+
+.card .front {
+    background-color: #0056b3;
+}
+
+.card .back {
+    background-color: white;
     transform: rotateY(180deg);
-  }
-  
+}
+
+.card.flipped .front {
+    transform: rotateY(180deg);
+}
+
+.card.flipped .back {
+    transform: rotateY(0);
+}
+
+.score {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #0056b3;
+  text-align: center;
+}
