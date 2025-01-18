@@ -1,66 +1,54 @@
-/* General Reset and Body Styles */
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  background-color: #f0f0f0;
-}
-
-/* Heading */
-h1 {
-  font-size: 2rem;
-  color: #0056b3;
-  margin: 20px 0;
-  text-align: center;
-}
-
-/* Score Display */
-.score {
-  font-size: 1.5rem;
-  margin-bottom: 20px;
-  color: #333;
-}
-
-/* Game Board */
-.game-board {
-  display: grid;
-  gap: 10px;
-  justify-content: center;
-  background-color: #fff;
+/* Leaderboard Styles */
+.leaderboard {
+  margin-top: 20px;
   padding: 10px;
   border: 2px solid #ccc;
   border-radius: 10px;
+  background-color: #f9f9f9;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 300px;
 }
 
-/* Card Styles */
+.leaderboard h2 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: #333;
+  text-align: center;
+}
+
+.leaderboard ul {
+  list-style: none;
+  padding: 0;
+}
+
+.leaderboard li {
+  font-size: 1rem;
+  margin: 5px 0;
+  color: #555;
+}
+/* Card Flip Animation */
 .card {
-  width: 80px;
-  height: 100px;
-  perspective: 1000px; /* Enable 3D perspective */
-  cursor: pointer;
   position: relative;
+  width: 100px;
+  height: 140px;
+  perspective: 1000px;
+  cursor: pointer;
+  margin: 10px;
 }
 
 .card .front,
 .card .back {
+  position: absolute;
   width: 100%;
   height: 100%;
-  position: absolute;
-  backface-visibility: hidden; /* Hide the back face when flipped */
-  border-radius: 10px;
+  backface-visibility: hidden;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 2rem;
-  font-weight: bold;
-  transform: rotateY(0); /* Initial state for the front face */
-  transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1); /* Smooth flip animation */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.6s ease;
 }
 
 .card .front {
@@ -69,43 +57,51 @@ h1 {
 }
 
 .card .back {
-  background-color: white;
-  transform: rotateY(180deg); /* Initial state for the back face */
+  background-color: #f9f9f9;
+  transform: rotateY(180deg);
 }
 
 .card.flipped .front {
-  transform: rotateY(-180deg); /* Flip front to hide it */
+  transform: rotateY(180deg);
 }
 
 .card.flipped .back {
-  transform: rotateY(0); /* Flip back to show it */
+  transform: rotateY(0deg);
 }
 
-/* Responsive Grid Layout */
-@media (min-width: 768px) {
-  .game-board {
-    grid-template-columns: repeat(4, 1fr); /* 4 cards per row */
-  }
+/* Leaderboard Animation */
+.leaderboard {
+  margin-top: 20px;
+  padding: 10px;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 300px;
+  opacity: 0;
+  transform: scale(0.8);
+  animation: fadeIn 0.6s forwards ease-out;
 }
 
-@media (max-width: 767px) {
-  .game-board {
-    grid-template-columns: repeat(3, 1fr); /* 3 cards per row for smaller screens */
-  }
+.leaderboard h2 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: #333;
+  text-align: center;
 }
 
-@media (max-width: 480px) {
-  .game-board {
-    grid-template-columns: repeat(2, 1fr); /* 2 cards per row for very small screens */
-    gap: 5px;
-  }
-
-  .card {
-    width: 70px;
-    height: 90px;
-  }
+.leaderboard ul {
+  list-style: none;
+  padding: 0;
 }
-/* Restart Button Styles */
+
+.leaderboard li {
+  font-size: 1rem;
+  margin: 5px 0;
+  color: #555;
+}
+
+/* Restart Button */
 .reset-button {
   margin-top: 20px;
   padding: 10px 20px;
@@ -116,14 +112,36 @@ h1 {
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: transform 0.2s, background-color 0.3s ease;
 }
 
 .reset-button:hover {
   background-color: #004090;
+  transform: scale(1.1);
 }
 
 .reset-button:active {
   background-color: #003366;
+  transform: scale(1.05);
 }
 
+/* Fade-in Animation for Leaderboard */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Game Board Flexbox Layout */
+.game-board {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 600px;
+  margin: 0 auto;
+}

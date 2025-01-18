@@ -5,6 +5,7 @@ let firstCard, secondCard;
 let lockBoard = false;
 let score = 0;
 let matchedPairs = 0;
+let playerName = '';
 const totalPairs = cardsArray.length / 2;
 
 // Shuffle cards
@@ -68,7 +69,9 @@ function checkForMatch() {
         disableCards();
         if (matchedPairs === totalPairs) {
             setTimeout(() => {
-                alert('Congratulations! You completed the game!');
+                alert(`Congratulations, ${playerName}! You completed the game!`);
+                saveScore();
+                showLeaderboard();
             }, 500);
         }
     } else {
@@ -112,6 +115,27 @@ function resetState() {
     secondCard = null;
 }
 
+// Save player score to local storage
+function saveScore() {
+    const leaderboard = JSON.parse(localStorage.getItem('leaderboard')) || [];
+    leaderboard.push({ name: playerName, score });
+    leaderboard.sort((a, b) => b.score - a.score); // Sort by score descending
+    localStorage.setItem('leaderboard', JSON.stringify(leaderboard));
+}
+
+// Display leaderboard
+function showLeaderboard() {
+    const leaderboard = JSON.parse(localStorage.getItem('leaderboard')) || [];
+    const leaderboardList = document.getElementById('leaderboard-list');
+    leaderboardList.innerHTML = '';
+
+    leaderboard.forEach((entry, index) => {
+        const listItem = document.createElement('li');
+        listItem.textContent = `${index + 1}. ${entry.name}: ${entry.score}`;
+        leaderboardList.appendChild(listItem);
+    });
+}
+
 // Restart game
 function restartGame() {
     resetState();
@@ -120,9 +144,27 @@ function restartGame() {
 
 // Initialize game
 document.addEventListener('DOMContentLoaded', () => {
+    playerName = prompt('Enter your name:') || 'Player'; // Prompt for player name
     createBoard();
     updateScore();
+    showLeaderboard();
 
     // Add event listener to the reset button
     document.getElementById('reset-button').addEventListener('click', restartGame);
 });
+// Display leaderboard with fade-in effect
+function showLeaderboard() {
+    const leaderboard = JSON.parse(localStorage.getItem('leaderboard')) || [];
+    const leaderboardList = document.getElementById('leaderboard-list');
+    leaderboardList.innerHTML = '';
+
+    leaderboard.forEach((entry, index) => {
+        const listItem = document.createElement('li');
+        listItem.textContent = `${index + 1}. ${entry.name}: ${entry.score}`;
+        leaderboardList.appendChild(listItem);
+    });
+
+    const leaderboardElement = document.getElementById('leaderboard');
+    leaderboardElement.style.display = 'block'; // Ensure it's visible
+    leaderboardElement.classList.add('animated'); // Add animation class
+}
