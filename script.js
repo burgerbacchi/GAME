@@ -168,3 +168,40 @@ function showLeaderboard() {
     leaderboardElement.style.display = 'block'; // Ensure it's visible
     leaderboardElement.classList.add('animated'); // Add animation class
 }
+// Save player score to local storage
+function saveScore() {
+    const leaderboard = JSON.parse(localStorage.getItem('leaderboard')) || [];
+    leaderboard.push({ name: playerName, score });
+    leaderboard.sort((a, b) => b.score - a.score); // Sort by score descending
+    localStorage.setItem('leaderboard', JSON.stringify(leaderboard));
+}
+
+// Display leaderboard
+function showLeaderboard() {
+    const leaderboard = JSON.parse(localStorage.getItem('leaderboard')) || [];
+    const leaderboardList = document.getElementById('leaderboard-list');
+    leaderboardList.innerHTML = '';
+
+    leaderboard.forEach((entry, index) => {
+        const listItem = document.createElement('li');
+        listItem.textContent = `${index + 1}. ${entry.name}: ${entry.score}`;
+        leaderboardList.appendChild(listItem);
+    });
+}
+
+// Restart game
+function restartGame() {
+    resetState();
+    createBoard();
+}
+
+// Initialize game
+document.addEventListener('DOMContentLoaded', () => {
+    playerName = prompt('Enter your name:') || 'Player'; // Prompt for player name
+    createBoard();
+    updateScore();
+    showLeaderboard();
+
+    // Add event listener to the reset button
+    document.getElementById('reset-button').addEventListener('click', restartGame);
+});
