@@ -105,3 +105,25 @@ h1 {
     height: 90px;
   }
 }
+/* Restart Button Styles */
+.reset-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: white;
+  background-color: #0056b3;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.reset-button:hover {
+  background-color: #004090;
+}
+
+.reset-button:active {
+  background-color: #003366;
+}
+

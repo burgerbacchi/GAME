@@ -1,5 +1,12 @@
 const cardsArray = ['🍎', '🍌', '🍇', '🍒', '🍋', '🍉', '🍎', '🍌', '🍇', '🍒', '🍋', '🍉'];
 
+let hasFlippedCard = false;
+let firstCard, secondCard;
+let lockBoard = false;
+let score = 0;
+let matchedPairs = 0;
+const totalPairs = cardsArray.length / 2;
+
 // Shuffle cards
 function shuffle(array) {
     return array.sort(() => Math.random() - 0.5);
@@ -24,12 +31,10 @@ function createBoard() {
         cardElement.addEventListener('click', flipCard);
         gameBoard.appendChild(cardElement);
     });
-}
 
-let hasFlippedCard = false;
-let firstCard, secondCard;
-let lockBoard = false;
-let score = 0;
+    resetState();
+    updateScore();
+}
 
 // Update score display
 function updateScore() {
@@ -59,7 +64,13 @@ function checkForMatch() {
 
     if (isMatch) {
         score += 10; // Increment score for a match
+        matchedPairs++; // Increment matched pairs
         disableCards();
+        if (matchedPairs === totalPairs) {
+            setTimeout(() => {
+                alert('Congratulations! You completed the game!');
+            }, 500);
+        }
     } else {
         unflipCards();
     }
@@ -91,8 +102,27 @@ function resetBoard() {
     [firstCard, secondCard] = [null, null];
 }
 
+// Reset game state
+function resetState() {
+    score = 0;
+    matchedPairs = 0;
+    hasFlippedCard = false;
+    lockBoard = false;
+    firstCard = null;
+    secondCard = null;
+}
+
+// Restart game
+function restartGame() {
+    resetState();
+    createBoard();
+}
+
 // Initialize game
 document.addEventListener('DOMContentLoaded', () => {
     createBoard();
-    updateScore(); // Initialize score display
+    updateScore();
+
+    // Add event listener to the reset button
+    document.getElementById('reset-button').addEventListener('click', restartGame);
 });
